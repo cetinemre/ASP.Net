@@ -1,0 +1,59 @@
+﻿@model List<Employees>
+@{
+    ViewBag.Title = "Müşteriler";
+}
+@using (Html.BeginForm("Add", "Employee", FormMethod.Post, new { @class = "form-inline" }))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.TextBox("FirstName", "", new { @class = "form-control" })
+            </div>
+            <div class="col-md-6">
+                @Html.TextBox("LastName", "", new { @class = "form-control" })
+            </div>
+            <input type="submit" value="Müşteri Ekle" class="btn btn-info" />
+        </div>
+    </div>
+}
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            @*<th>Product Count</th>*@
+            <th>Detail</th>
+            <th>Delete</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var current = Model[i];
+            <tr>
+                <th>@(i + 1)</th>
+                <td>@current.FirstName</td>
+                <td>@current.LastName</td>
+                @*<td>@current.Products.Count</td>*@
+                <td>
+                    <a href="@Url.Action("Detail", "Employee", new {id = current.EmployeeID})" class="btn btn-success">
+                        Detail
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Delete", "Employee", new {id = current.EmployeeID})" class="btn btn-danger">
+                        Delete
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Update", "Employee", new {id = current.EmployeeID})" class="btn btn-warning">
+                        Update
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

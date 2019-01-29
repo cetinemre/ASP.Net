@@ -1,0 +1,32 @@
+﻿@model Products
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>@Model.ProductName nin detay sayfasi</h2>
+<h4>@Model.UnitsInStock</h4>
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>ProductName</th>
+            <th>UnitsInStock</th>
+            <th>UnitsOnOrder</th>
+            <th>UnitPrice</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.ProductID</td>
+            <th>@Model.ProductName</th>
+            <th>@Model.UnitsInStock</th>
+            <th>@Model.UnitsOnOrder</th>
+            <th>@Model.UnitPrice</th>
+
+        </tr>
+    </tbody>
+</table>
+
+

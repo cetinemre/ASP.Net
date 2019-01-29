@@ -1,0 +1,31 @@
+﻿@model Employees
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>@Model.FirstName nin detay sayfasi</h2>
+<h4>@Model.LastName</h4>
+
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>City</th>
+                <th>Adress</th>
+            </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+                <td>@Model.EmployeeID</td>
+                <th>@Model.FirstName</th>
+                <th>@Model.LastName</th>
+                <th>@Model.City</th>
+                <th>@Model.Address</th>
+
+            </tr>
+        </tbody>
+    </table>
+
