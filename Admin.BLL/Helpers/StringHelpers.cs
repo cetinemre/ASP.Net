@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Admin.BLL.Helpers
@@ -39,5 +42,25 @@ namespace Admin.BLL.Helpers
 
             return sonuc;
         }
+
+        public static string Capitilize(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            var items = text.Split(' ');
+            var result = string.Empty;
+            foreach (var item in items)
+            {
+                if (item.Length > 1)
+                    result += $"{(item.Substring(0, 1).ToUpper())}{item.Substring(1).ToLower()}";
+                else
+                    result += $"{item}";
+
+            }
+
+            return result.Trim();
+        }
+
+        public static string GetCode => Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "{/+=", "")
+            .ToLower(new CultureInfo("en-Us", false));
     }
 }

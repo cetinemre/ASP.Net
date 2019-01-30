@@ -9,12 +9,15 @@ using System.Threading.Tasks;
 namespace Admin.Dal
 {
     public class MyContext: DbContext
-                
-    {
 
-        public MyContext():base("name=MyCon") 
+    {
+        
+        public MyContext():base("name=MyCon")
         {
+            
+            this.InstanceDate = DateTime.Now;
         }
+        public DateTime InstanceDate { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -22,7 +25,7 @@ namespace Admin.Dal
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>()
                 .Property(x => x.TaxRate)
-                .HasPrecision(3, 2);
+                .HasPrecision(4, 2);
 
             modelBuilder.Entity<Product>()
                 .Property(x => x.BuyPrice)

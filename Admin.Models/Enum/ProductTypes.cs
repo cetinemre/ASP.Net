@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace Admin.Models.Enum
 {
     public enum ProductTypes
     {
-        Bulk=10,
-        Retail=100
+        [Description("Toptan")]
+        Bulk =10,
+        [Description("Perakende")]
+        Retail =100
     }
 }
