@@ -9,11 +9,11 @@
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
         <!-- Error Titles -->
-        <h1 class="display-4 m-b-0 text-green animated bounceIn">@message.ErrorCode</h1>
-        <p class="m-b-lg">We are sorry but your request contains bad syntax and cannot be fulfilled..</p>
-        <a href="@Url.Action(message.ActionName,message.ControllerName)" class="btn btn-info">Geri git</a>
-        <!-- End Error Titles -->
+        <h1 class="display-4 m-b-0 text-green animated bounceIn">@(message?.ErrorCode ?? 404)</h1>
+        <p class="m-b-lg">@(message.Text ?? "Aradığınız sayfa bulunamadı")</p>
+        <a href="@Url.Action(message?.ActionName??"Index",message?.ControllerName??"Home")" class="btn btn-info">Geri git</a>
 
+        <!-- End Error Titles -->
         <!-- Search Form -->
         @*<form class="form-horizontal m-b-lg" action="frontend_400.html" method="post">
             <div class="form-group">
