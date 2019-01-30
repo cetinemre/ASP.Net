@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -64,6 +65,9 @@
       <Project>{106bc1bf-adb2-437f-9222-af60adffe6c5}</Project>
       <Name>Admin.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
