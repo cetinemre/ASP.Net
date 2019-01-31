@@ -40,10 +40,11 @@ namespace Admin.Models.Entities
 
         [DisplayName("Fiyat Güncelleme Tarihi")]
         public DateTime LastPriceUpdateDate { get; set; }
-
+        [DisplayName("Kategorisi")]
         public int CategoryId { get; set; }
 
-        public Guid SupProductId { get; set; }
+        [DisplayName("Perakende Ürünü")]
+        public Guid? SupProductId { get; set; }
 
         [StringLength(20)]
         [Required]
@@ -54,7 +55,7 @@ namespace Admin.Models.Entities
         public int Quantity { get; set; }
 
         [DisplayName("Açıklama")]
-        public int Descriptio { get; set; }
+        public int Description { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }

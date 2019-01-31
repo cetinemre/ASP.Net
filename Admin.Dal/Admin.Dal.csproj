@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.14.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.14\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -52,6 +55,10 @@
     <Compile Include="Migrations\201901301116533_a1.cs" />
     <Compile Include="Migrations\201901301116533_a1.Designer.cs">
       <DependentUpon>201901301116533_a1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901311110147_a2.cs" />
+    <Compile Include="Migrations\201901311110147_a2.Designer.cs">
+      <DependentUpon>201901311110147_a2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyContext.cs" />
@@ -70,6 +77,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201901301116533_a1.resx">
       <DependentUpon>201901301116533_a1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901311110147_a2.resx">
+      <DependentUpon>201901311110147_a2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
