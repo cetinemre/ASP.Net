@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Web.UI", "Admin.Web.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Models", "Admin.Models\Admin.Models.csproj", "{106BC1BF-ADB2-437F-9222-AF60ADFFE6C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.Dal", "Admin.Dal\Admin.Dal.csproj", "{4753CC51-3031-4F86-8EA6-E91CCF4DD0E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.DAL", "Admin.Dal\Admin.DAL.csproj", "{4753CC51-3031-4F86-8EA6-E91CCF4DD0E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin.BLL", "Admin.BLL\Admin.BLL.csproj", "{F65134FE-660B-4F3C-8178-3B77D1D5A875}"
 EndProject

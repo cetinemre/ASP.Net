@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Admin.Models.Abstract
+namespace Admin.Models.Abstracts
 {
-    public abstract class BaseEntitiy<T>
+    public abstract class BaseEntity<T>
     {
 
         [Key]

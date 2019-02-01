@@ -16,7 +16,7 @@
             <div class="card-header">
                 <h4>Kategori Ekleme Formu</h4>
                 <br/>
-                <div class="text text-danger">@Html.ValidationSummary()</div>
+                <div class="text text-red">@Html.ValidationSummary()</div>
                 @*<ul class="card-actions">
                         <li>
                             <button type="button"><i class="ion-more"></i></button>
@@ -30,8 +30,8 @@
                     <div class="form-group">
                         @Html.LabelFor(x => x.CategoryName, new {@class = "col-md-3 control-label"})
                         <div class="col-md-7">
-                            @Html.TextBoxFor(x => x.CategoryName, new {@class = "form-control", placeholder = "Kategori Adı"})
-                            <br/><span class="text-danger">@Html.ValidationMessageFor(x => x.CategoryName)</span>
+                            @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", placeholder = "Kategori Adı" })
+                            <br /><span class="text-red">@Html.ValidationMessageFor(x => x.CategoryName)</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -43,8 +43,8 @@
                     <div class="form-group">
                         @Html.LabelFor(x => x.TaxRate, new {@class = "col-md-3 control-label"})
                         <div class="col-md-7">
-                            @Html.TextBoxFor(x => x.TaxRate, new {@class = "form-control", placeholder = "Kdv Oranı", type = "number", step = "1"})
-                            <br/><span class="text-danger">@Html.ValidationMessageFor(x => x.TaxRate)</span>
+                            @Html.TextBoxFor(x => x.TaxRate, new { @class = "form-control", placeholder = "Kdv Oranı", type = "number", step = "1" })
+                            <br /><span class="text-red">@Html.ValidationMessageFor(x => x.TaxRate)</span>
                         </div>
                     </div>
                     <div class="form-group m-b-0">

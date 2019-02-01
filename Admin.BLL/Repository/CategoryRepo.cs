@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Admin.Models.Entities;
+﻿using Admin.Models.Entities;
 
 namespace Admin.BLL.Repository
 {
-    public class CategoryRepo: RepositoryBase<Category, int>
+    public class CategoryRepo : RepositoryBase<Category, int>
     {
+
     }
 }
+

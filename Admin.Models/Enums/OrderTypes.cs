@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Admin.Models.Enum
+namespace Admin.Models.Enums
 {
-    public enum ProductTypes
+    public enum OrderTypes
     {
-        [Description("Toptan")]
-        Bulk =10,
-        [Description("Perakende")]
-        Retail =100
+        [Description("Alış")]
+        Buying=10,
+        [Description("Satış")]
+        Selling =20
     }
 }

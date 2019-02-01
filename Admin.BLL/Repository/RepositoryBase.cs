@@ -4,12 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Admin.Dal;
-using Admin.Models.Abstract;
+using Admin.DAL;
+using Admin.Models.Abstracts;
 
 namespace Admin.BLL.Repository
 {
-    public abstract class RepositoryBase<T,TId> : IDisposable where T: BaseEntitiy<TId>
+    public abstract class RepositoryBase<T, TId> : IDisposable where T : BaseEntity<TId>
     {
         internal static MyContext DbContext;
         private static DbSet<T> DbObject;
@@ -17,9 +17,9 @@ namespace Admin.BLL.Repository
         protected RepositoryBase()
         {
             DbContext = DbContext ?? new MyContext();
-            TimeSpan dd= DateTime.Now - DbContext.InstanceDate;
-            if (IsDisposed)DbContext= new MyContext();
-            if(dd.TotalMinutes>30) DbContext= new MyContext();
+            TimeSpan dd = DateTime.Now - DbContext.InstanceDate;
+            if (IsDisposed) DbContext = new MyContext();
+            if (dd.TotalMinutes > 30) DbContext = new MyContext();
             DbObject = DbContext.Set<T>();
         }
 
@@ -27,36 +27,31 @@ namespace Admin.BLL.Repository
         {
             return DbObject.ToList();
         }
-        public List<T> GetAll(Func<T,bool>predicate)
+        public List<T> GetAll(Func<T, bool> predicate)
         {
             return DbObject.Where(predicate).ToList();
         }
-
         public async Task<List<T>> GetAllAsync()
         {
             return await DbObject.ToListAsync();
         }
-        public async Task<List<T>> GetAllAsync(Func<T,bool>predicate)
+        public async Task<List<T>> GetAllAsync(Func<T, bool> predicate)
         {
             return await DbObject.Where(predicate).AsQueryable().ToListAsync();
         }
-
         public T GetById(params object[] keys)
         {
             return DbObject.Find(keys);
         }
-
         public async Task<T> GetByIdAsync(params object[] keys)
         {
-            return  await DbObject.FindAsync(keys);
+            return await DbObject.FindAsync(keys);
         }
-
         public int Insert(T entity)
         {
             DbObject.Add(entity);
             return DbContext.SaveChanges();
         }
-
         public void InsertForMark(T entity)
         {
             DbObject.Add(entity);
@@ -66,13 +61,11 @@ namespace Admin.BLL.Repository
             DbObject.Add(entity);
             return await DbContext.SaveChangesAsync();
         }
-
         public int Delete(T entity)
         {
             DbObject.Remove(entity);
             return DbContext.SaveChanges();
         }
-
         public void DeleteForMark(T entity)
         {
             DbObject.Remove(entity);
@@ -82,7 +75,6 @@ namespace Admin.BLL.Repository
             DbObject.Remove(entity);
             return await DbContext.SaveChangesAsync();
         }
-
         public int Save()
         {
             return DbContext.SaveChanges();
@@ -91,7 +83,6 @@ namespace Admin.BLL.Repository
         {
             return await DbContext.SaveChangesAsync();
         }
-
         public int Update(T entity)
         {
             DbObject.Attach(entity);
@@ -100,6 +91,10 @@ namespace Admin.BLL.Repository
             return this.Save();
         }
 
+        public IQueryable<T> Queryable()
+        {
+            return DbObject;
+        }
         public bool IsDisposed { get; set; }
         public void Dispose()
         {

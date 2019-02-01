@@ -248,7 +248,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="assets\Audio\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

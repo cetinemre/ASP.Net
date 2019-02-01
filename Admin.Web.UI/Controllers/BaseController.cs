@@ -3,7 +3,7 @@ using Admin.Models.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Admin.Models.Enum;
+using Admin.Models.Enums;
 
 namespace Admin.Web.UI.Controllers
 {

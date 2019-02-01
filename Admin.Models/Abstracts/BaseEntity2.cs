@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Admin.Models.Abstract
+namespace Admin.Models.Abstracts
 {
-    public abstract class BaseEntity2<T1,T2>:BaseEntitiy<T1>
+    public abstract class BaseEntity2<T1,T2>:BaseEntity<T1>
     {
 
         [Key]
