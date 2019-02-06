@@ -29,6 +29,7 @@ namespace Admin.Web.UI.Controllers
             {
                 return View("Index", model);
             }
+
             try
             {
                 var userStore = NewUserStore();
@@ -61,6 +62,7 @@ namespace Admin.Web.UI.Controllers
                     {
                         await userManager.AddToRoleAsync(newUser.Id, "User");
                     }
+
                     //todo kullanıcıya mail gönderilsin
                 }
                 else
@@ -70,6 +72,7 @@ namespace Admin.Web.UI.Controllers
                     {
                         err += resultError + " ";
                     }
+
                     ModelState.AddModelError("", err);
                     return View("Index", model);
                 }
@@ -106,6 +109,7 @@ namespace Admin.Web.UI.Controllers
                     ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
                     return View("Index", model);
                 }
+
                 var authManager = HttpContext.GetOwinContext().Authentication;
                 var userIdentity =
                     await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
@@ -133,7 +137,86 @@ namespace Admin.Web.UI.Controllers
         {
             var authManager = HttpContext.GetOwinContext().Authentication;
             authManager.SignOut();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Account");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> UserProfile()
+        {
+            var id = HttpContext.GetOwinContext().Authentication.User.Identity.GetUserId();
+
+            try
+            {
+                var userManager = NewUserManager();
+                var user = await userManager.FindByIdAsync(id);
+
+                var data = new ProfilePasswordViewModel()
+                {
+                    UserProfileViewModel = new UserProfileViewModel()
+                    {
+                        Email = user.Email,
+                        Id = user.Id,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        PhoneNumber = user.PhoneNumber,
+                        UserName = user.UserName
+                    }
+                };
+                return View(data);
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "UserProfile",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<ActionResult> UpdateProfile(ProfilePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("UserProfile", model);
+            }
+
+            try
+            {
+                var userManager = NewUserManager();
+                var user = await userManager.FindByIdAsync(model.UserProfileViewModel.Id);
+
+                user.Name = model.UserProfileViewModel.Name;
+                user.Surname = model.UserProfileViewModel.Surname;
+                if (user.Email != model.UserProfileViewModel.Email)
+                {
+                    //todo tekrardan aktivasyon gönderilmeli ve kullanıcı rolü aktif olamayan bir kullanıcı rolüne atanmalı!
+                }
+
+                user.Email = model.UserProfileViewModel.Email;
+                user.PhoneNumber = model.UserProfileViewModel.PhoneNumber;
+                await userManager.UpdateAsync(user);
+                TempData["Message"] = "Profiliniz güncellenmiştir";
+                return RedirectToAction("UserProfile");
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "UserProfile",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
         }
     }
 }
