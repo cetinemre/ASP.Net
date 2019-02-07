@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Admin.BLL.Helpers;
+using Admin.BLL.Services.Senders;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using static Admin.BLL.Identity.MembershipTools;
@@ -16,6 +18,7 @@ namespace Admin.Web.UI.Controllers
         // GET: Account
         public ActionResult Index()
         {
+            //HttpContext.User.Identity.GetUserId();
             if (HttpContext.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             return View();
@@ -48,7 +51,8 @@ namespace Admin.Web.UI.Controllers
                     UserName = rm.UserName,
                     Email = rm.Email,
                     Name = rm.Name,
-                    Surname = rm.Surname
+                    Surname = rm.Surname,
+                    ActivationCode = StringHelpers.GetCode()
                 };
                 var result = await userManager.CreateAsync(newUser, rm.Password);
                 if (result.Succeeded)
@@ -61,7 +65,13 @@ namespace Admin.Web.UI.Controllers
                     {
                         await userManager.AddToRoleAsync(newUser.Id, "User");
                     }
-                    //todo kullanıcıya mail gönderilsin
+
+                    string SiteUrl = Request.Url.Scheme + System.Uri.SchemeDelimiter + Request.Url.Host +
+                                     (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+
+                    var emailService = new EmailService();
+                    var body = $"Merhaba <b>{newUser.Name} {newUser.Surname}</b><br>Hesabınızı aktif etmek için aşadıdaki linke tıklayınız<br> <a href='{SiteUrl}/account/activation?code={newUser.ActivationCode}' >Aktivasyon Linki </a> ";
+                    await emailService.SendAsync(new IdentityMessage() { Body = body, Subject = "Sitemize Hoşgeldiniz" }, newUser.Email);
                 }
                 else
                 {
@@ -237,6 +247,7 @@ namespace Admin.Web.UI.Controllers
                 model.UserProfileViewModel = data.UserProfileViewModel;
                 if (!ModelState.IsValid)
                 {
+                    model.ChangePasswordViewModel = new ChangePasswordViewModel();
                     return View("UserProfile", model);
                 }
 
@@ -258,6 +269,7 @@ namespace Admin.Web.UI.Controllers
                         err += resultError + " ";
                     }
                     ModelState.AddModelError("", err);
+                    model.ChangePasswordViewModel = new ChangePasswordViewModel();
                     return View("UserProfile", model);
                 }
             }
@@ -272,6 +284,99 @@ namespace Admin.Web.UI.Controllers
                 };
                 return RedirectToAction("Error", "Home");
             }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Activation(string code)
+        {
+            try
+            {
+                var userStore = NewUserStore();
+                var user = userStore.Users.FirstOrDefault(x => x.ActivationCode == code);
+
+                if (user != null)
+                {
+                    if (user.EmailConfirmed)
+                    {
+                        ViewBag.Message = $"<span class='alert alert-success'>Bu hesap daha önce aktive edilmiştir.</span>";
+                    }
+                    else
+                    {
+                        user.EmailConfirmed = true;
+
+                        userStore.Context.SaveChanges();
+                        ViewBag.Message = $"<span class='alert alert-success'>Aktivasyon işleminiz başarılı</span>";
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = $"<span class='alert alert-danger'>Aktivasyon başarısız</span>";
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "<span class='alert alert-danger'>Aktivasyon işleminde bir hata oluştu</span>";
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<ActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            try
+            {
+                var userStore = NewUserStore();
+                var userManager = NewUserManager();
+                var user = await userStore.FindByEmailAsync(model.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, $"{model.Email} mail adresine kayıtlı bir üyeliğe erişilemedi");
+                    return View(model);
+                }
+
+                var newPassword = StringHelpers.GetCode().Substring(0, 6);
+                await userStore.SetPasswordHashAsync(user, userManager.PasswordHasher.HashPassword(newPassword));
+                var result = userStore.Context.SaveChanges();
+                if (result == 0)
+                {
+                    TempData["Model"] = new ErrorViewModel()
+                    {
+                        Text = $"Bir hata oluştu",
+                        ActionName = "RecoverPassword",
+                        ControllerName = "Account",
+                        ErrorCode = 500
+                    };
+                    return RedirectToAction("Error", "Home");
+                }
+
+                var emailService = new EmailService();
+                var body = $"Merhaba <b>{user.Name} {user.Surname}</b><br>Hesabınızın parolası sıfırlanmıştır<br> Yeni parolanız: <b>{newPassword}</b> <p>Yukarıdaki parolayı kullanarak sistemize giriş yapabilirsiniz.</p>";
+                emailService.Send(new IdentityMessage() { Body = body, Subject = $"{user.UserName} Şifre Kurtarma" }, user.Email);
+            }
+            catch (Exception ex)
+            {
+                TempData["Model"] = new ErrorViewModel()
+                {
+                    Text = $"Bir hata oluştu {ex.Message}",
+                    ActionName = "RecoverPassword",
+                    ControllerName = "Account",
+                    ErrorCode = 500
+                };
+                return RedirectToAction("Error", "Home");
+            }
+
+            return View();
         }
     }
 }

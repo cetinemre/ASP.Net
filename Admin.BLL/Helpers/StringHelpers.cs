@@ -60,7 +60,7 @@ namespace Admin.BLL.Helpers
             return result.Trim();
         }
 
-        public static string GetCode => Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "{/+=", "")
+        public static string GetCode() => Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "{/+=", "")
             .ToLower(new CultureInfo("en-Us", false));
     }
 }
