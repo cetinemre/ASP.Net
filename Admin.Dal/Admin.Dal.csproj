@@ -79,9 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Migrations\201902041125043_a15.cs" />
-    <Compile Include="Migrations\201902041125043_a15.Designer.cs">
-      <DependentUpon>201902041125043_a15.cs</DependentUpon>
+    <Compile Include="Migrations\201902071119400_a1.cs" />
+    <Compile Include="Migrations\201902071119400_a1.Designer.cs">
+      <DependentUpon>201902071119400_a1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyContext.cs" />
@@ -98,8 +98,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902041125043_a15.resx">
-      <DependentUpon>201902041125043_a15.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902071119400_a1.resx">
+      <DependentUpon>201902071119400_a1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
