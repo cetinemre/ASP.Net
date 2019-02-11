@@ -92,6 +92,7 @@
     <Compile Include="Entities\Invoice.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Enums\IdentityRoles.cs" />
     <Compile Include="Enums\MessageStates.cs" />
     <Compile Include="Enums\OrderTypes.cs" />
     <Compile Include="Enums\ProductTypes.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModels\RegisterLoginViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\UpdateUserRoleViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
