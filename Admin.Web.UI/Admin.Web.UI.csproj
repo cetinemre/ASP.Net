@@ -264,7 +264,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="assets\css\maps\app-custom.css.map" />
     <Content Include="assets\css\maps\app.css.map" />
     <Content Include="assets\css\maps\bootstrap.css.map" />
@@ -308,6 +310,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="assets\Audio\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Hata\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Admin.BLL\Admin.BLL.csproj">

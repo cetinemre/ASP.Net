@@ -26,7 +26,7 @@ namespace Admin.Web.UI
                 if (!roleManager.RoleExists(rol))
                     roleManager.Create(new Role()
                     {
-                        Name = rol
+                       // Name = role
                     });
             }
         }
