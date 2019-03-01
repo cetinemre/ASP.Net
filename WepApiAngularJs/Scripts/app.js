@@ -1,7 +1,7 @@
 ﻿/// <reference path="angular.js" />
 
 var app = angular.module("myApp", []);
-
+var host = "http://localhost:54735/";
 app.controller("ProductCtrl", function ($scope) {
 	$scope.urunler = [];
 	$scope.sepetList = [];
@@ -81,5 +81,100 @@ app.controller("ProductCtrl", function ($scope) {
 		return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0, 3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
 	}
 
+	init();
+});
+app.controller("CategoryCtrl", function ($scope, $http) {
+	$scope.categoryList = [];
+	$scope.istekVarMi = false;
+	$scope.guncelleMi = false;
+
+	function init() {
+		$scope.istekVarMi = true;
+		$http({
+			method: 'GET',
+			url: host + "api/category/getall"
+		}).then(function successCallback(response) {
+			$scope.istekVarMi = false;
+			var r = response.data;
+			if (r.success) {
+				$scope.categoryList = r.data;
+			} else {
+				alert(r.message);
+			}
+		}, function errorCallback(response) {
+			$scope.istekVarMi = false;
+			console.log(response);
+		});
+	}
+
+	$scope.ekle = function () {
+		$scope.istekVarMi = true;
+		$http({
+			method: "POST",
+			url: host + "api/category/add",
+			data: $scope.yeni
+		}).then(function (rs) {
+			$scope.istekVarMi = false;
+			if (rs.data.success) {
+				alert(rs.data.message);
+				init();
+			} else {
+				alert("bir hata oluştu " + rs.data.message);
+			}
+		},
+			function (re) {
+				$scope.istekVarMi = false;
+			});
+	};
+
+	$scope.sil = function (id) {
+		$scope.istekVarMi = true;
+		$http({
+			method: "DELETE",
+			url: host + "api/category/delete/" + id
+		}).then(function (rs) {
+			$scope.istekVarMi = false;
+			if (rs.data.success) {
+				alert(rs.data.message);
+				init();
+			} else {
+				alert("bir hata oluştu " + rs.data.message);
+			}
+		},
+			function (re) {
+				$scope.istekVarMi = false;
+				console.log(re);
+				alert(re.data.Message);
+			});
+	};
+
+	$scope.getir = function (category) {
+		$scope.guncelleMi = true;
+		$scope.yeni = category;
+	};
+
+	$scope.guncelle = function () {
+		$scope.istekVarMi = true;
+		$http({
+			method: "PUT",
+			url: host + "api/category/putcategory/" + $scope.yeni.CategoryID,
+			data: $scope.yeni
+		}).then(function (rs) {
+			$scope.istekVarMi = false;
+			if (rs.data.success) {
+				alert(rs.data.message);
+				$scope.yeni = null;
+				$scope.guncelleMi = false;
+				init();
+			} else {
+				alert("bir hata oluştu " + rs.data.message);
+			}
+		},
+			function (re) {
+				$scope.istekVarMi = false;
+				console.log(re);
+				alert(re.data.Message);
+			});
+	};
 	init();
 });
