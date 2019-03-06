@@ -1,7 +1,7 @@
 ﻿/// <reference path="angular.js" />
 
 var app = angular.module("myApp", ["dx"]);
-var host = 'http://localhost:61757/';
+var host = 'http://localhost:64841/';
 app.controller("testCtrl", function ($scope) {
 
 	$scope.dataGridOptions = {
